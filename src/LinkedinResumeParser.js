@@ -79,7 +79,7 @@ class LinkedinResumeParser{
     )
 
     const getExperienceMonths=(monthsAndYears) =>{
-
+      
     }
 
     return{

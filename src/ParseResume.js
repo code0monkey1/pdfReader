@@ -1,42 +1,136 @@
-const pdfParser = require('pdf-parse');
-const fs = require('fs');
-
+const parser=require("pdf-parse")
+const fs= require("fs");
+const axios = require("axios");
 class ParseResume {
-
-     #resume
+  // special syntax for declaring  private variables
+     #resume =[] 
+     #dir
      #file
-     #fileDestination
 
-     constructor(fileDestination) {
-          this.#fileDestination=fileDestination;
+
+     constructor(dir) {
+     console.log(dir)
+      this.#dir = dir;
+      this.#file=fs.readFileSync(this.#dir)
+      this.#resume=parser(this.#file).then(res=>{
+                return res.text.split("\n")
+            })
+                 console.log("The directory is",this.#dir)
+    }
+  
+     async toString() {
+
+         const resume = await this.#resume
+         return resume
+       
      }
 
-     initialize() {
-          this.setFile()
-          this.setResume()
+     async getGitHub() {
+
+          const response = await axios.get("https://api.github.com/users/code0monkey1/repos")
+
+          const data = response.data
+
+          return data
      }
 
-     async setFile(){
+     async getSkills()  {
 
-         this.#file=await fs.readFileSync(this.#fileDestination)
-     }
-
-     async setResume(){
+          const resume = await this.#resume
           
-          this.#resume = await pdfParser(this.#file)
+          const contactsIndex =resume .indexOf("Contact")
 
+          const skillsIndex = resume.indexOf("Top Skills")
+        
+          return resume.slice(contactsIndex+1,skillsIndex)
+
+         
      }
 
-     async getJson() {
+     async toJson() {
 
-         return{
-            resume:await this.#resume
+          return await {
+               "resume":await this.toString(), 
+               "skills":await this.getSkills(),
+               "github":await this.getGitHub()
+
           }
      }
 
+    async #parse() {
 
+           this.#resume=await parser(this.#file).then(res=>{
+
+                this.#resume= res.text.split("\n")
+             //write the resume to a json file
+                    this.#writeToJson()
+            
+            }).catch(err=>{
+           console.log(err)
+            }
+            )
+      }
+
+      #writeToJson() {
+
+            fs.writeFileSync(this.#dir+".json",JSON.stringify(this.toString()))
+      }
      
-        
+//   // private methods are also made using the # symbol before the function name
+//     #getSkills() {
+
+//   const topSkillIndex=dataArray.indexOf("Top Skills")
+//      const languagesIndex=this.#resume.indexOf("Languages")
+     
+//      console.log(topSkillsIndex, languagesIndex)
+//       const topSkills=dataArray.slice(topSkillIndex+1,languagesIndex)
+
+//           return topSkills
+//     }
+
+//     deposit(amount) {
+
+//       if (amount > 0) {
+//         this.#balance += amount;
+//       }
+
+//       this.#balance += amount;
+//     }
+
+//     withdraw(amount) {
+
+//       if (isNaN(amount)) {
+//         throw new Error("Amount must be a number");
+//       }
+
+//       if(amount > this.#balance) {
+//         throw new Error('Insufficient funds');
+//       }
+
+//       this.#balance -= amount;
+//     }
+//    //special getter syntax for getting private variables
+//     get balance() {
+//       return this.#balance;
+//     }
+   
+//     // special syntax for setting private variables
+//     set balance(amount) {
+
+//       if (isNaN(amount)) {
+//         throw new Error("Amount must be a number");
+//       }
+
+//       if (amount > 0) {
+//         this.#balance = amount;
+//       }
+
+//       this.#balance = amount;
+
+//     }
+
+ 
+
 }
 
-module.exports=ParseResume;
+module.exports = ParseResume;

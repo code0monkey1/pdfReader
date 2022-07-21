@@ -1,0 +1,22 @@
+{
+  "name": "pdfReader",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "linkedin-pdf-parser": "^0.2.0",
+    "linkedin-resume-pdf-to-json": "^0.1.7",
+    "nodemon": "^2.0.15",
+    "pdf-parse": "^1.1.1",
+    "pdf2json": "^2.0.1"
+  },
+  "devDependencies": {}
+}

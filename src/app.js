@@ -15,25 +15,14 @@
 // const myResumeParser = new ResumeParser(__dirname+"/patients/Profile.pdf")
 
 
-const getUrlData = async(url)=>{
-
-const Web=require("./Web")
-
-const web = new Web()
-
- const data = await web.getData()
- console.log(data)
-
-  
-}
 
 const getResume=async(file)=>{
 
-const Web=require("./Web")
+const ResumeParser=require("./LinkedinResumeParser")
 
-const web = new Web()
+const resumeParser = new ResumeParser()
 
- const resume= await web.getParsedResume(file)
+ const resume= await resumeParser.getParsedResume(file)
 
  console.log(resume)
 

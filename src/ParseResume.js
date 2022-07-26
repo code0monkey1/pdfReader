@@ -9,13 +9,13 @@ class ParseResume {
 
 
      constructor(dir) {
-     console.log(dir)
+   
       this.#dir = dir;
       this.#file=fs.readFileSync(this.#dir)
       this.#resume=parser(this.#file).then(res=>{
                 return res.text.split("\n")
             })
-                 console.log("The directory is",this.#dir)
+             
     }
   
      async toString() {
@@ -66,7 +66,7 @@ class ParseResume {
                     this.#writeToJson()
             
             }).catch(err=>{
-           console.log(err)
+             console.log(err)
             }
             )
       }

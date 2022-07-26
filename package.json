@@ -15,6 +15,7 @@
     "express": "^4.17.3",
     "linkedin-pdf-parser": "^0.2.0",
     "linkedin-resume-pdf-to-json": "^0.1.7",
+    "lodash": "^4.17.21",
     "nodemon": "^2.0.15",
     "pdf-parse": "^1.1.1",
     "pdf2json": "^2.0.1"
